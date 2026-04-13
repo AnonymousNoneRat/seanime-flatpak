@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<component type="desktop-application">
+  <id>io.github.5rahim.Seanime</id>
+  <name>Seanime</name>
+  <summary>Stream, track and manage your anime and manga</summary>
+  <metadata_license>CC0-1.0</metadata_license>
+  <project_license>GPL-3.0</project_license>
+
+  <description>
+    <p>
+      Seanime is a self-hosted open-source media server for anime and manga.
+      It scans your local files, matches them with AniList, and lets you stream,
+      track and manage everything from a web interface or desktop app.
+    </p>
+    <ul>
+      <li>Automatic library scanning and matching</li>
+      <li>Auto-download new episodes as they air</li>
+      <li>Built-in torrent and Debrid support</li>
+      <li>Online streaming from various sources</li>
+      <li>AniList, MyAnimeList, Trakt integration</li>
+      <li>Watch party support</li>
+    </ul>
+  </description>
+
+  <url type="homepage">https://seanime.app</url>
+  <url type="bugtracker">https://github.com/5rahim/seanime/issues</url>
+  <url type="vcs-browser">https://github.com/5rahim/seanime</url>
+
+  <launchable type="desktop-id">io.github.5rahim.Seanime.desktop</launchable>
+
+  <releases>
+    <release version="3.5.2" date="2026-03-03">
+      <url>https://github.com/5rahim/seanime/releases/tag/v3.5.2</url>
+    </release>
+  </releases>
+
+  <content_rating type="oars-1.1"/>
+
+  <supports>
+    <control>pointing</control>
+    <control>keyboard</control>
+  </supports>
+</component>

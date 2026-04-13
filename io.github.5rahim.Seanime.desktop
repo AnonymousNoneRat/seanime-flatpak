@@ -1,0 +1,10 @@
+[Desktop Entry]
+Name=Seanime
+GenericName=Anime Media Server
+Comment=Stream, track and manage your anime and manga
+Exec=seanime
+Icon=io.github.5rahim.Seanime
+Type=Application
+Categories=AudioVideo;Video;Network;
+Keywords=anime;manga;media;streaming;
+StartupNotify=true

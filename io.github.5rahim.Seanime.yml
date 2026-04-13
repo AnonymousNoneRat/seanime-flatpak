@@ -1,0 +1,53 @@
+app-id: io.github.5rahim.Seanime
+runtime: org.freedesktop.Platform
+runtime-version: '24.08'
+sdk: org.freedesktop.Sdk
+command: seanime
+
+finish-args:
+  - --share=network
+  - --share=ipc
+  - --socket=x11
+  - --socket=wayland
+  - --socket=pulseaudio
+  - --device=dri
+  - --filesystem=home
+  - --talk-name=org.freedesktop.Notifications
+
+modules:
+  - name: seanime
+    buildsystem: simple
+    build-commands:
+      - tar -xzf seanime.tar.gz
+      - install -Dm755 seanime /app/bin/seanime
+      - install -Dm644 io.github.5rahim.Seanime.desktop
+          /app/share/applications/io.github.5rahim.Seanime.desktop
+      - install -Dm644 io.github.5rahim.Seanime.metainfo.xml
+          /app/share/metainfo/io.github.5rahim.Seanime.metainfo.xml
+      - install -Dm644 icon.png
+          /app/share/icons/hicolor/256x256/apps/io.github.5rahim.Seanime.png
+
+    sources:
+      - type: file
+        url: https://github.com/5rahim/seanime/releases/download/v3.5.2/seanime-v3.5.2-linux-amd64.tar.gz
+        sha256: PLACEHOLDER_RUN_WORKFLOW_TO_FILL
+        dest-filename: seanime.tar.gz
+        x-checker-data:
+          type: json
+          url: https://api.github.com/repos/5rahim/seanime/releases/latest
+          version-query: .tag_name | ltrimstr("v")
+          url-query: >-
+            .assets[] |
+            select(.name | test("linux-amd64.tar.gz")) |
+            .browser_download_url
+          is-main-source: true
+
+      - type: file
+        path: io.github.5rahim.Seanime.desktop
+
+      - type: file
+        path: io.github.5rahim.Seanime.metainfo.xml
+
+      - type: file
+        url: https://raw.githubusercontent.com/5rahim/seanime/main/public/icons/png/256x256.png
+        dest-filename: icon.png

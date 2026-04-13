@@ -1,0 +1,43 @@
+name: Build and Release Flatpak
+
+on:
+  push:
+    branches: [main]
+  workflow_dispatch:
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    permissions:
+      contents: write
+
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Get version from manifest
+        id: version
+        run: |
+          VERSION=$(grep -oP '(?<=download/v)[0-9.]+(?=/)' io.github.5rahim.Seanime.yml | head -1)
+          echo "version=$VERSION" >> $GITHUB_OUTPUT
+
+      - name: Build Flatpak
+        uses: flatpak/flatpak-github-actions/flatpak-builder@v6
+        with:
+          bundle: Seanime.flatpak
+          manifest-path: io.github.5rahim.Seanime.yml
+          cache-key: flatpak-builder-${{ github.sha }}
+
+      - name: Create GitHub Release
+        uses: softprops/action-gh-release@v2
+        with:
+          tag_name: v${{ steps.version.outputs.version }}
+          name: Seanime v${{ steps.version.outputs.version }}
+          body: |
+            Flatpak build of Seanime v${{ steps.version.outputs.version }}
+
+            **Install:**
+```bash
+            flatpak install Seanime.flatpak
+```
+          files: Seanime.flatpak
+          token: ${{ secrets.GITHUB_TOKEN }}
