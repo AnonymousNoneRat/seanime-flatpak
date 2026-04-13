@@ -18,7 +18,7 @@ jobs:
         run: |
           sudo apt-get update
           sudo apt-get install -y flatpak flatpak-builder
-          sudo flatpak remote-add --if-not-exists flathub https://flathub.org/repo/flathub.flatpakrepo
+          flatpak remote-add --user --if-not-exists flathub https://flathub.org/repo/flathub.flatpakrepo
 
       - name: Get version from manifest
         id: version
@@ -32,6 +32,8 @@ jobs:
           bundle: Seanime.flatpak
           manifest-path: io.github.5rahim.Seanime.yml
           cache-key: flatpak-builder-${{ github.sha }}
+          install-deps-from: flathub
+          arch: x86_64
 
       - name: Create GitHub Release
         uses: softprops/action-gh-release@v2
