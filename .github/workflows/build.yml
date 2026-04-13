@@ -19,12 +19,22 @@ jobs:
           sudo apt-get update
           sudo apt-get install -y flatpak flatpak-builder elfutils
           flatpak remote-add --user --if-not-exists flathub https://flathub.org/repo/flathub.flatpakrepo
-          flatpak install --user -y flathub org.freedesktop.Platform//24.08 org.freedesktop.Sdk//24.08
+
+      - name: Cache Flatpak SDK
+        uses: actions/cache@v4
+        with:
+          path: ~/.local/share/flatpak
+          key: flatpak-sdk-freedesktop-24.08
+          restore-keys: flatpak-sdk-freedesktop-
+
+      - name: Install Flatpak SDK
+        run: |
+          flatpak install --user -y flathub org.freedesktop.Platform//24.08 org.freedesktop.Sdk//24.08 || true
 
       - name: Get version and fix sha256 in manifest
         id: version
         run: |
-          VERSION=$(grep -oP '(?<=seanime-)[0-9.]+(?=_Linux)' io.github.5rahim.Seanime.yml | head -1)
+          VERSION=$(grep -oP '(?<=seanime-)[0-9.]+(?=_Linux)' io.github.seanime.Seanime.yml | head -1)
           echo "version=$VERSION" >> $GITHUB_OUTPUT
           echo "Found version: $VERSION"
           URL="https://github.com/5rahim/seanime/releases/download/v${VERSION}/seanime-${VERSION}_Linux_x86_64.tar.gz"
@@ -32,12 +42,19 @@ jobs:
           curl -L --retry 3 -o /tmp/seanime.tar.gz "$URL"
           SHA256=$(sha256sum /tmp/seanime.tar.gz | awk '{print $1}')
           echo "SHA256: $SHA256"
-          sed -i "s|0000000000000000000000000000000000000000000000000000000000000000|$SHA256|" io.github.5rahim.Seanime.yml
+          sed -i "s|0000000000000000000000000000000000000000000000000000000000000000|$SHA256|" io.github.seanime.Seanime.yml
+
+      - name: Cache flatpak-builder state
+        uses: actions/cache@v4
+        with:
+          path: .flatpak-builder
+          key: flatpak-builder-${{ github.sha }}
+          restore-keys: flatpak-builder-
 
       - name: Build Flatpak
         run: |
-          flatpak-builder --user --install --force-clean --repo=repo builddir io.github.5rahim.Seanime.yml
-          flatpak build-bundle repo Seanime.flatpak io.github.5rahim.Seanime
+          flatpak-builder --user --install --force-clean --repo=repo builddir io.github.seanime.Seanime.yml
+          flatpak build-bundle repo Seanime.flatpak io.github.seanime.Seanime
 
       - name: Create GitHub Release
         uses: softprops/action-gh-release@v2

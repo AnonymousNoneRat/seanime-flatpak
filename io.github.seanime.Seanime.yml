@@ -1,4 +1,4 @@
-app-id: io.github.5rahim.Seanime
+app-id: io.github.seanime.Seanime
 runtime: org.freedesktop.Platform
 runtime-version: '24.08'
 sdk: org.freedesktop.Sdk
@@ -20,12 +20,12 @@ modules:
     build-commands:
       - tar -xzf seanime.tar.gz
       - install -Dm755 seanime /app/bin/seanime
-      - install -Dm644 io.github.5rahim.Seanime.desktop
-          /app/share/applications/io.github.5rahim.Seanime.desktop
-      - install -Dm644 io.github.5rahim.Seanime.metainfo.xml
-          /app/share/metainfo/io.github.5rahim.Seanime.metainfo.xml
+      - install -Dm644 io.github.seanime.Seanime.desktop
+          /app/share/applications/io.github.seanime.Seanime.desktop
+      - install -Dm644 io.github.seanime.Seanime.metainfo.xml
+          /app/share/metainfo/io.github.seanime.Seanime.metainfo.xml
       - install -Dm644 icon.png
-          /app/share/icons/hicolor/256x256/apps/io.github.5rahim.Seanime.png
+          /app/share/icons/hicolor/256x256/apps/io.github.seanime.Seanime.png
 
     sources:
       - type: file
@@ -40,10 +40,10 @@ modules:
           is-main-source: true
 
       - type: file
-        path: io.github.5rahim.Seanime.desktop
+        path: io.github.seanime.Seanime.desktop
 
       - type: file
-        path: io.github.5rahim.Seanime.metainfo.xml
+        path: io.github.seanime.Seanime.metainfo.xml
 
       - type: file
         path: icon.png
