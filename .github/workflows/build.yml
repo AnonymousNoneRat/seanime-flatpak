@@ -14,26 +14,24 @@ jobs:
     steps:
       - uses: actions/checkout@v4
 
-      - name: Install flatpak and flatpak-builder
+      - name: Install dependencies
         run: |
           sudo apt-get update
-          sudo apt-get install -y flatpak flatpak-builder
+          sudo apt-get install -y flatpak flatpak-builder elfutils
           flatpak remote-add --user --if-not-exists flathub https://flathub.org/repo/flathub.flatpakrepo
+          flatpak install --user -y flathub org.freedesktop.Platform//24.08 org.freedesktop.Sdk//24.08
 
       - name: Get version from manifest
         id: version
         run: |
           VERSION=$(grep -oP '(?<=download/v)[0-9.]+(?=/)' io.github.5rahim.Seanime.yml | head -1)
           echo "version=$VERSION" >> $GITHUB_OUTPUT
+          echo "Found version: $VERSION"
 
       - name: Build Flatpak
-        uses: flatpak/flatpak-github-actions/flatpak-builder@v6
-        with:
-          bundle: Seanime.flatpak
-          manifest-path: io.github.5rahim.Seanime.yml
-          cache-key: flatpak-builder-${{ github.sha }}
-          install-deps-from: flathub
-          arch: x86_64
+        run: |
+          flatpak-builder --user --install --force-clean --repo=repo builddir io.github.5rahim.Seanime.yml
+          flatpak build-bundle repo Seanime.flatpak io.github.5rahim.Seanime
 
       - name: Create GitHub Release
         uses: softprops/action-gh-release@v2
