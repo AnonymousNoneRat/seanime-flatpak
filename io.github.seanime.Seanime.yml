@@ -21,7 +21,7 @@ modules:
     build-commands:
       - chmod +x seanime-denshi.AppImage
       - ./seanime-denshi.AppImage --appimage-extract
-      - mkdir -p /app/bin /app/lib
+      - mkdir -p /app/bin /app/lib/seanime
       - cp -r squashfs-root/* /app/lib/seanime/
       - |
         cat > /app/bin/seanime-denshi-wrapper << 'WRAPPER'
