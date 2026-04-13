@@ -30,6 +30,7 @@ modules:
     sources:
       - type: file
         url: https://github.com/5rahim/seanime/releases/download/v3.5.2/seanime-v3.5.2-linux-amd64.tar.gz
+        sha256: 0000000000000000000000000000000000000000000000000000000000000000
         dest-filename: seanime.tar.gz
         x-checker-data:
           type: github-releases
@@ -46,4 +47,5 @@ modules:
 
       - type: file
         url: https://raw.githubusercontent.com/5rahim/seanime/main/public/icons/png/256x256.png
+        sha256: 0000000000000000000000000000000000000000000000000000000000000000
         dest-filename: icon.png
