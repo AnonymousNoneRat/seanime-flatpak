@@ -29,14 +29,14 @@ modules:
 
     sources:
       - type: file
-        url: https://github.com/5rahim/seanime/releases/download/v3.5.2/seanime-v3.5.2-linux-amd64.tar.gz
+        url: https://github.com/5rahim/seanime/releases/download/v3.5.1/seanime-3.5.1_Linux_x86_64.tar.gz
         sha256: 0000000000000000000000000000000000000000000000000000000000000000
         dest-filename: seanime.tar.gz
         x-checker-data:
           type: github-releases
           owner: 5rahim
           repo: seanime
-          filename-pattern: seanime-$version-linux-amd64.tar.gz
+          filename-pattern: seanime-$version_Linux_x86_64.tar.gz
           is-main-source: true
 
       - type: file

@@ -24,15 +24,15 @@ jobs:
       - name: Get version and fix sha256 in manifest
         id: version
         run: |
-          VERSION=$(grep -oP '(?<=download/v)[0-9.]+(?=/)' io.github.5rahim.Seanime.yml | head -1)
+          VERSION=$(grep -oP '(?<=seanime-)[0-9.]+(?=_Linux)' io.github.5rahim.Seanime.yml | head -1)
           echo "version=$VERSION" >> $GITHUB_OUTPUT
           echo "Found version: $VERSION"
-          URL="https://github.com/5rahim/seanime/releases/download/v${VERSION}/seanime-v${VERSION}-linux-amd64.tar.gz"
+          URL="https://github.com/5rahim/seanime/releases/download/v${VERSION}/seanime-${VERSION}_Linux_x86_64.tar.gz"
           echo "Downloading $URL to compute sha256..."
           curl -L --retry 3 -o /tmp/seanime.tar.gz "$URL"
           SHA256=$(sha256sum /tmp/seanime.tar.gz | awk '{print $1}')
           echo "SHA256: $SHA256"
-          sed -i "s|0000000000000000000000000000000000000000000000000000000000000000|$SHA256|g" io.github.5rahim.Seanime.yml
+          sed -i "s|0000000000000000000000000000000000000000000000000000000000000000|$SHA256|" io.github.5rahim.Seanime.yml
 
       - name: Build Flatpak
         run: |
