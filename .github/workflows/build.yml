@@ -16,20 +16,24 @@ jobs:
 
       - name: Install dependencies
         run: |
-          sudo apt-get update
-          sudo apt-get install -y flatpak flatpak-builder elfutils
+          sudo apt-get update -qq
+          sudo apt-get install -y flatpak flatpak-builder
           flatpak remote-add --user --if-not-exists flathub https://flathub.org/repo/flathub.flatpakrepo
 
       - name: Cache Flatpak SDK
+        id: cache-sdk
         uses: actions/cache@v4
         with:
           path: ~/.local/share/flatpak
-          key: flatpak-sdk-freedesktop-24.08
+          key: flatpak-sdk-freedesktop-24.08-v2
           restore-keys: flatpak-sdk-freedesktop-
 
-      - name: Install Flatpak SDK
+      - name: Install Flatpak SDK (only if cache miss)
+        if: steps.cache-sdk.outputs.cache-hit != 'true'
         run: |
-          flatpak install --user -y flathub org.freedesktop.Platform//24.08 org.freedesktop.Sdk//24.08 || true
+          flatpak install --user -y --noninteractive flathub \
+            org.freedesktop.Platform//24.08 \
+            org.freedesktop.Sdk//24.08
 
       - name: Get version and fix sha256 in manifest
         id: version

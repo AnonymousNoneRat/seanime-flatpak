@@ -26,7 +26,7 @@ modules:
       - |
         cat > /app/bin/seanime-denshi-wrapper << 'WRAPPER'
         #!/bin/bash
-        exec /app/lib/seanime/AppRun "$@"
+        exec /app/lib/seanime/seanime-denshi --no-sandbox "$@"
         WRAPPER
       - chmod +x /app/bin/seanime-denshi-wrapper
       - install -Dm644 io.github.seanime.Seanime.desktop
