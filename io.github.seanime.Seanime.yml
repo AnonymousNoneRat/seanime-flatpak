@@ -23,20 +23,20 @@ modules:
       - ./seanime-denshi.AppImage --appimage-extract
       - mkdir -p /app/bin /app/lib/seanime
       - cp -r squashfs-root/* /app/lib/seanime/
+      - mv /app/lib/seanime/seanime-denshi /app/lib/seanime/io.github.seanime.Seanime
       - |
         cat > /app/bin/seanime-denshi-wrapper << 'WRAPPER'
         #!/bin/bash
         export DISPLAY="${DISPLAY:-:0}"
-        export GDK_BACKEND=wayland
         export ELECTRON_OZONE_PLATFORM_HINT=wayland
         if [ -n "$WAYLAND_DISPLAY" ]; then
-          exec /app/lib/seanime/seanime-denshi \
+          exec /app/lib/seanime/io.github.seanime.Seanime \
             --no-sandbox \
             --ozone-platform=wayland \
             --enable-features=UseOzonePlatform,WaylandWindowDecorations \
             "$@"
         else
-          exec /app/lib/seanime/seanime-denshi --no-sandbox "$@"
+          exec /app/lib/seanime/io.github.seanime.Seanime --no-sandbox "$@"
         fi
         WRAPPER
       - chmod +x /app/bin/seanime-denshi-wrapper
