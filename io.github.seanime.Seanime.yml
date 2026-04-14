@@ -11,7 +11,9 @@ finish-args:
   - --socket=wayland
   - --socket=pulseaudio
   - --device=dri
-  - --filesystem=home
+  - --filesystem=xdg-download
+  - --filesystem=xdg-videos
+  - --filesystem=xdg-music
   - --talk-name=org.freedesktop.Notifications
   - --env=TMPDIR=/var/tmp
 

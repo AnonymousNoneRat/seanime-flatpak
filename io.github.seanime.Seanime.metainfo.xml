@@ -28,9 +28,16 @@
 
   <launchable type="desktop-id">io.github.seanime.Seanime.desktop</launchable>
 
+  <screenshots>
+    <screenshot type="default">
+      <caption>Seanime library view</caption>
+      <image>https://seanime.app/images/screenshots/library.png</image>
+    </screenshot>
+  </screenshots>
+
   <releases>
-    <release version="3.5.2" date="2026-03-03">
-      <url>https://github.com/5rahim/seanime/releases/tag/v3.5.2</url>
+    <release version="3.5.1" date="2026-02-25">
+      <url>https://github.com/5rahim/seanime/releases/tag/v3.5.1</url>
     </release>
   </releases>
 
