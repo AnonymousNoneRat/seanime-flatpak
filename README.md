@@ -38,10 +38,6 @@ This Flatpak auto-updates daily. To manually check for updates:
 flatpak update
 ```
 
-## Building from Source
-
-See [BUILD.md](BUILD.md) for manual build instructions.
-
 ## Disclaimer
 
 This is an **unofficial** community package. Seanime is developed by [5rahim](https://github.com/5rahim/sean)
