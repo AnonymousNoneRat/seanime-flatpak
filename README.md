@@ -18,10 +18,10 @@ flatpak run io.github.seanime.Seanime
 
 ## Features
 
-- ✅ Automatic updates via built-in updater (disabled - use `flatpak update` instead)
-- ✅ Wayland and X11 support
-- ✅ Sandboxed with tight permissions
-- ✅ Auto-builds when new Seanime versions release
+- Automatic updates via built-in updater (disabled - use `flatpak update` instead)
+- Wayland and X11 support
+- Sandboxed with tight permissions
+- Auto-builds when new Seanime versions release
 
 ## Permissions
 
