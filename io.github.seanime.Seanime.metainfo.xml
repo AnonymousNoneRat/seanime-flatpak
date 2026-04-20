@@ -1,4 +1,4 @@
-<?xml version="3.6.1" encoding="UTF-8"?>
+<?xml version="1.0" encoding="UTF-8"?>
 <component type="desktop-application">
   <id>io.github.seanime.Seanime</id>
   <name>Seanime</name>
@@ -28,16 +28,9 @@
 
   <launchable type="desktop-id">io.github.seanime.Seanime.desktop</launchable>
 
-  <screenshots>
-    <screenshot type="default">
-      <caption>Seanime library view</caption>
-      <image>https://seanime.app/images/screenshots/library.png</image>
-    </screenshot>
-  </screenshots>
-
   <releases>
     <release version="3.6.1" date="2026-04-20">
-      <url>https://github.com/5rahim/seanime/releases/tag/v3.5.1</url>
+      <url>https://github.com/5rahim/seanime/releases/tag/v3.6.1</url>
     </release>
   </releases>
 
