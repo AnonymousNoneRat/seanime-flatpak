@@ -2,25 +2,51 @@ name: Check for updates
 
 on:
   schedule:
-    - cron: '0 8 * * *'
+    - cron: '0 */6 * * *'
   workflow_dispatch:
 
 jobs:
-  flatpak-external-data-checker:
+  check-update:
     runs-on: ubuntu-latest
     permissions:
       contents: write
-      pull-requests: write
-
     steps:
       - uses: actions/checkout@v4
 
-      - uses: docker://ghcr.io/flathub/flatpak-external-data-checker:latest
+      - name: Check for new Seanime release
+        id: check
+        run: |
+          CURRENT_VERSION=$(grep -oP '(?<=seanime-denshi-)[0-9.]+(?=_Linux)' io.github.seanime.Seanime.yml | head -1)
+          echo "Current version: $CURRENT_VERSION"
+          LATEST_TAG=$(curl -sL --fail https://api.github.com/repos/5rahim/seanime/releases/latest | jq -r '.tag_name')
+          LATEST_VERSION=${LATEST_TAG#v}
+          echo "Latest version: $LATEST_VERSION"
+          if [ "$CURRENT_VERSION" != "$LATEST_VERSION" ]; then
+            echo "new_version=true" >> $GITHUB_OUTPUT
+            echo "version=$LATEST_VERSION" >> $GITHUB_OUTPUT
+            echo "tag=$LATEST_TAG" >> $GITHUB_OUTPUT
+          else
+            echo "new_version=false" >> $GITHUB_OUTPUT
+          fi
+
+      - name: Update manifest URL and reset SHA256
+        if: steps.check.outputs.new_version == 'true'
+        run: |
+          VERSION=${{ steps.check.outputs.version }}
+          sed -i "s|seanime-denshi-[0-9.]*_Linux_x86_64.AppImage|seanime-denshi-${VERSION}_Linux_x86_64.AppImage|g" io.github.seanime.Seanime.yml
+          sed -i "s|download/v[0-9.]*/|download/v${VERSION}/|g" io.github.seanime.Seanime.yml
+          sed -i 's|sha256: [a-f0-9]\{64\}|sha256: 0000000000000000000000000000000000000000000000000000000000000000|g' io.github.seanime.Seanime.yml
+          sed -i "s|version=\"[0-9.]*\"|version=\"${VERSION}\"|g" io.github.seanime.Seanime.metainfo.xml
+          TODAY=$(date +%Y-%m-%d)
+          sed -i "s|date=\"[0-9-]*\"|date=\"${TODAY}\"|g" io.github.seanime.Seanime.metainfo.xml
+
+      - name: Commit and push changes
+        if: steps.check.outputs.new_version == 'true'
         env:
-          GIT_AUTHOR_NAME: Flatpak External Data Checker
-          GIT_AUTHOR_EMAIL: 41898282+github-actions[bot]@users.noreply.github.com
-          GIT_COMMITTER_NAME: Flatpak External Data Checker
-          GIT_COMMITTER_EMAIL: 41898282+github-actions[bot]@users.noreply.github.com
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-        with:
-          args: --update --never-fork io.github.seanime.Seanime.yml
+        run: |
+          git config user.name "GitHub Actions Bot"
+          git config user.email "github-actions[bot]@users.noreply.github.com"
+          git add io.github.seanime.Seanime.yml io.github.seanime.Seanime.metainfo.xml
+          git commit -m "Auto-update Seanime to v${{ steps.check.outputs.version }}"
+          git push
